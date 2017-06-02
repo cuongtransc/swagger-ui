@@ -31,17 +31,18 @@ fi
 
 if [[ -f $SWAGGER_JSON ]]; then
   sed -i "s|http://petstore.swagger.io/v2/swagger.json|swagger.json|g" $INDEX_FILE
-  sed -i "s|http://example.com/api|swagger.json|g" $INDEX_FILE
+  # sed -i "s|http://example.com/api|swagger.json|g" $INDEX_FILE
 else
   sed -i "s|http://petstore.swagger.io/v2/swagger.json|$API_URL|g" $INDEX_FILE
-  sed -i "s|http://example.com/api|$API_URL|g" $INDEX_FILE
+  # sed -i "s|http://example.com/api|$API_URL|g" $INDEX_FILE
 fi
 
 if [[ -n "$VALIDATOR_URL" ]]; then
   sed -i "s|.*validatorUrl:.*$||g" $INDEX_FILE
+
   TMP_VU="$VALIDATOR_URL"
   [[ "$VALIDATOR_URL" != "null" && "$VALIDATOR_URL" != "undefined" ]] && TMP_VU="\"${VALIDATOR_URL}\""
-  sed -i "s|\(url: .*,\)|\1\n    validatorUrl: ${TMP_VU},|g" $INDEX_FILE
+    sed -i "s|\(url: .*,\)|\1\n    validatorUrl: ${TMP_VU},|g" $INDEX_FILE
   unset TMP_VU
 fi
 

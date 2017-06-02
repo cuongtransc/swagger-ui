@@ -1,0 +1,11 @@
+.dockerignore
+.git
+.gitignore
+0compose/
+venv/
+.venv/
+.idea/
+*
+!nginx.conf
+!docker-run.sh
+!dist
