@@ -1,8 +1,13 @@
 FROM alpine:3.4
 
-MAINTAINER fehguy
+MAINTAINER Cuong Tran "tranhuucuong91@gmail.com"
 
-ENV VERSION "v2.2.10"
+RUN apk add --update nginx
+RUN mkdir -p /run/nginx
+
+COPY nginx-config/nginx.tmpl.conf /etc/nginx/nginx.tmpl.conf
+
+# ENV VERSION "v2.2.10"
 ENV FOLDER "swagger-ui-2.2.10"
 ENV API_URL "http://petstore.swagger.io/v2/swagger.json"
 ENV API_KEY "**None**"
@@ -11,15 +16,14 @@ ENV OAUTH_CLIENT_SECRET "**None**"
 ENV OAUTH_REALM "**None**"
 ENV OAUTH_APP_NAME "**None**"
 ENV OAUTH_ADDITIONAL_PARAMS "**None**"
-ENV SWAGGER_JSON "/app/swagger.json"
-ENV PORT 80
+ENV SWAGGER_JSON "/usr/share/nginx/html/swagger.json"
+# ENV PORT 8080
+# ENV VALIDATOR_URL null
 
-RUN apk add --update nginx
-RUN mkdir -p /run/nginx
+# Default password: coc:coc@123
+ENV HTPASSWD 'coc:$apr1$e9q4IX2q$NoJl9ygUOAPwtm0NaUpWR1'
 
-COPY nginx.conf /etc/nginx/
-
-# copy swagger files to the `/js` folder
+# Copy swagger files to the `/js` folder
 COPY ./dist/* /usr/share/nginx/html/
 COPY ./docker-run.sh /usr/share/nginx/
 

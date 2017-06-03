@@ -46,4 +46,15 @@ if [[ -n "$VALIDATOR_URL" ]]; then
   unset TMP_VU
 fi
 
+if [[ -n "$HTPASSWD" ]]; then
+  # Copy htpasswd
+  echo "$HTPASSWD" > /etc/nginx/htpasswd
+
+  # Copy nginx config
+  sed 's|#HTPASSWD.*|auth_basic "Protected";\n      auth_basic_user_file /etc/nginx/htpasswd;|g' \
+    /etc/nginx/nginx.tmpl.conf > /etc/nginx/nginx.conf
+else
+  cp /etc/nginx/nginx.tmpl.conf /etc/nginx/nginx.conf
+fi
+
 exec nginx -g 'daemon off;'

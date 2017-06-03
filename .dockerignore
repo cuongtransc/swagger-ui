@@ -6,6 +6,6 @@ venv/
 .venv/
 .idea/
 *
-!nginx.conf
+!nginx-config
 !docker-run.sh
 !dist
